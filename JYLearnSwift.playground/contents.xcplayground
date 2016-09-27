@@ -2,7 +2,14 @@
 <playground version='6.0' target-platform='ios'>
     <pages>
         <page name='general'/>
-        <page name='class'/>
-        <page name='Untitled Page 2'/>
+        <page name='类是值引用'/>
+        <page name='自定义类实现哈希'/>
+        <page name='对函数的操作'/>
+        <page name='对错误Error的处理'/>
+        <page name='对系统版本的判定方式'/>
+        <page name='可选类型的操作'/>
+        <page name='闭包'/>
+        <page name='defer关键字的使用'/>
+        <page name='创建子类'/>
     </pages>
 </playground>
