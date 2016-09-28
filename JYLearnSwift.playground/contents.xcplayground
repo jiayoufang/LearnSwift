@@ -11,5 +11,6 @@
         <page name='闭包'/>
         <page name='defer关键字的使用'/>
         <page name='创建子类'/>
+        <page name='枚举'/>
     </pages>
 </playground>
