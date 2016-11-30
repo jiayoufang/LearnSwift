@@ -3,5 +3,7 @@
     <pages>
         <page name='单例'/>
         <page name='实例方法的动态调用'/>
+        <page name='条件编译'/>
+        <page name='编译标记'/>
     </pages>
 </playground>
