@@ -1,3 +1,73 @@
+##2016-12-3
+
+###在Swift中实现协议方法的可选实现
+
+在Objective-C中的`protocol`可是使用关键字`@optional`来实现可选方法。但是在Swift中，默认所有的方法都是必须要实现的。但是也并非不能实现，有两种方法
+
+####将协议本身和可选方法都定义为Objective-C
+其实也就是在协议之前和协议方法之前都加上`@objc`，这样就可以使用`optional`关键字了
+
+有一些限制，说明一下：
+
+- 使用`@objc`修饰的`protocol`只能被class实现，对于`struct`和`enum`类型，无法令他们实现可选方法和属性了
+- 实现他的class 的方法也必须被标注为`@objc`，或者整个类就是继承自NSObject
+
+````
+@objc protocol MyProtocol1 {
+    @objc optional func method1() -> String
+    
+    func method2() -> Int
+}
+
+class MyClass1: MyProtocol1 {
+    
+    //不实现也是可以的
+//    func method1() -> String {
+//        return "Test"
+//    }
+    
+    func method2() -> Int {
+        return 2
+    }
+}
+
+//是会报错的 error: non-class type 'MyStruct1' cannot conform to class protocol 'MyProtocol1'
+struct MyStruct1: MyProtocol1{
+    func method1() -> String {
+        return "Struct"
+    }
+    
+    func method2() -> Int {
+        return 3
+    }
+}
+````
+
+####使用extension
+
+这个方法是在swift2.0之后才支持的，其实就是使用`protocol ` 的`extension `给出方法的默认实现，这样，这些方法在实际的类中就是可选实现的了
+
+````
+protocol MyProtocol2 {
+    func method1() -> String
+    
+    func method2() -> Int
+}
+
+extension MyProtocol2 {
+    func method1() -> String {
+        return "MyProtocol2DefaultString"
+    }
+    
+}
+
+class MyClass2: MyProtocol2 {
+    func method2() -> Int {
+        return 3
+    }
+}
+````
+
 ## 2016-11-29
 ###单例的创建
 
@@ -111,3 +181,4 @@ swift() | >= 某个版本
 **注意：这些都是区分大小写的**
 
 给方法添加文档说明，可使用快捷键  `alt+command+/`，这样在使用时候，使用`alt+单击`可以查看该方法的文档说明
+
