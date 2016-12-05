@@ -6,5 +6,7 @@
         <page name='条件编译'/>
         <page name='编译标记'/>
         <page name='协议方法的可选实现'/>
+        <page name='值类型和引用类型'/>
+        <page name='String和NSString'/>
     </pages>
 </playground>

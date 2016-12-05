@@ -1,3 +1,106 @@
+##2016-12-4
+
+###值类型和引用类型
+
+在swift中，有值类型和引用类型两种，值类型在传递和赋值时将进行复制，引用类型只会使用引用对象的一个‘指向’。在swift中有几点需要注意
+- swift中的`struct `和`enum `定义的类型都是值类型，使用`class `定义的对象是引用类型
+- swift中所有的內建类型都是值类型，不仅包括`Int `，`Bool `，甚至连`String `、`Array `和`Dictionary `都是值类型。
+
+这样做的好处是可以减少堆内存上内存分配和回收的次数。
+
+验证一下在swift中数组是值类型
+
+````
+//验证: 数组在swift中是值类型
+var array = ["A","B","C"]
+
+var array1 = array
+
+array1.removeLast()
+
+array //["A", "B", "C"]
+
+array1 //["A", "B"]
+````
+
+验证一下值类型中存储值类型和引用类型时的操作
+
+````
+//验证:  值类型在复制时，将存储在其中的值类型进行复制，但对于其中的引用类型，只是复制一份引用
+
+//引用类型
+class MyClass{
+    var num: Int
+    
+    init(num: Int) {
+        self.num = num
+    }
+}
+
+var myObj = MyClass(num: 1)
+
+var classArray = [myObj]
+
+myObj.num = 101
+
+classArray[0].num //101
+
+//值类型
+struct MyStruct{
+    var num: Int
+}
+
+var myStruct = MyStruct(num: 2)
+
+var structArray = [myStruct]
+
+myStruct.num = 102
+
+structArray[0].num //2
+
+````
+
+###区分一下String和NSString
+
+先来个自己的总结
+
+** `String `和`NSString `其实并没有太大的区别，他们两个基本上市可以无缝转换的，之所以有时候需要转换，只是他们有很少一部分没有相互实现的API，只是为了使用起来方便**
+
+比如遍历一个字符串
+
+使用`String `会更方便，因为它实现了`ColletionType `这样的协议
+
+````
+var str = "Hello, playground"
+
+for character in str.characters {
+    print(character)
+}
+
+````
+
+但如果是要和`Range `配合使用，使用`NSString `会更方便一些
+
+````
+//比如我们要实现一个替换第一个字符到第5个字符之前的字符的功能
+
+//使用String
+let startPosition = str.index(str.startIndex, offsetBy: 1)
+let endPosition = str.index(str.startIndex, offsetBy: 5)
+
+let range: Range = startPosition..<endPosition
+
+str.replacingCharacters(in: range, with: "TEST") //"HTEST, playground"
+
+//如果使用NSString
+
+let nsRnage = NSMakeRange(1, 4)
+
+(str as NSString).replacingCharacters(in: nsRnage, with: "TEST") //"HTEST, playground"
+````
+
+JUST DO IT.
+
 ##2016-12-3
 
 ###在Swift中实现协议方法的可选实现
