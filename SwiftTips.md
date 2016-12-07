@@ -1,3 +1,71 @@
+##2016-12-5
+
+###GCD和延迟调用
+
+使用GCD来实现多线程编程，先来个最经常使用的例子
+
+````
+//创建目标队列
+let workingQueue = DispatchQueue(label: "com.ivan.myqueue")
+
+//派发到刚创建的队列中，GCD会负责线程调度
+workingQueue.async { 
+    //在workQueue中异步进行
+    print("Working....")
+    //模拟两秒的执行时间
+    Thread.sleep(forTimeInterval: 2)
+    print("Work finish")
+    DispatchQueue.main.async {
+        print("在主线程中更新UI")
+    }
+}
+
+````
+
+实现延迟调用，这样写主要是为了实现能够在调用之前取消该操作
+
+````
+    typealias Task = (_ cancel: Bool) -> Void
+    
+    func delay(_ time: TimeInterval,task: @escaping () -> ()) -> Task? {
+        
+        //这个时候就体会到@escaping的含义了
+        func dispatch_later(block: @escaping () -> ()){
+            let t = DispatchTime.now() + time
+            DispatchQueue.main.asyncAfter(deadline: t, execute: block)
+        }
+        
+        var closure: (() -> Void)? = task
+        var result: Task?
+        
+        let delayedClosure: Task = {
+            cancel in
+            if let internalClosure = closure {
+                if cancel == false {
+                    DispatchQueue.main.async(execute: internalClosure)
+                }
+            }
+            closure = nil
+            result = nil
+        }
+        
+        result = delayedClosure
+        
+        dispatch_later {
+            if let delayedClosure = result{
+                delayedClosure(false)
+            }
+        }
+        
+        return result
+    }
+    
+    func cancel(_ task: Task?) {
+        task?(true)
+    }
+````
+
+
 ##2016-12-4
 
 ###值类型和引用类型
