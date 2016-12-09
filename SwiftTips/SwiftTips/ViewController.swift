@@ -16,11 +16,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        view.backgroundColor = UIColor.cyan
+//        view.backgroundColor = UIColor.cyan
+//        
+//        task = delay(2, task: {
+//            print("2秒后执行")
+//        })
+        let printClass = MyPrintClass()
         
-        task = delay(2, task: {
-            print("2秒后执行")
-        })
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

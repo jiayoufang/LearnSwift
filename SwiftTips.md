@@ -1,3 +1,182 @@
+##2016-12-7
+
+###创建随机数
+
+使用`arc4random()`来创建随机数是一个不错的方法，并且在swift中也可以使用，如果想要某个范围内的数，可以使用模运算`%`来实现。
+
+>API
+public func arc4random() -> UInt32
+public func arc4random_uniform(_ __upper_bound: UInt32) -> UInt32
+
+但是有一个问题：
+在iPhone5s及之后的设备上没问题，但是在iPhone5及之前的设备上**有时候**会崩溃
+
+原因：
+Swift的`Int`是和CPU的架构相关的：在32位的CPU上，实际上他是`Int32`，在64位的CPU上，他是`Int64`的。而使用`arc4random()`返回的值始终是`UInt32`的，所以在32位的机器上有一个班的概率会在进行Int转换时候越界，从而崩溃。
+
+实践，实现创建一个Range的随机数的方法
+
+````
+//创建一个Range的随机数的方法
+
+func randomInRange(inRange range: Range<Int>) -> Int{
+    let count = UInt32(range.upperBound - range.lowerBound)
+    return Int(arc4random_uniform(UInt32(count))) + range.lowerBound
+}
+
+for _ in 0...10 {
+    let range = Range(1...6)
+    print(randomInRange(inRange: range))
+}
+````
+
+###自定制print数据的格式
+
+实现该功能，在Objective-C中，主要靠重载`description`方法来实现
+
+在Swift中通过实现`CustomStringConvertible`协议来实现
+
+````
+class MyPrintClass{
+    var num: Int
+    init() {
+        num = 1
+    }
+}
+
+extension MyPrintClass: CustomStringConvertible{
+    var description: String{
+        return "Num: \(self.num)"
+    }
+}
+
+let printClass = MyPrintClass()
+print(printClass)
+
+````
+
+其实主要是学习一种思想：**实现和定义一个类型的时候，先定义最简单的类型结构，再通过扩展(extension)的方式来实现各种协议和功能**
+
+还有另外一个协议`CustomDebugStringConvertible `，通过实现它可以设置在调试中使用debugger来进行打印时候的输出，类似`po printClass`的命令进行打印
+
+未实现时打印结果类似
+
+````
+ (lldb)  po printClass
+<MyPrintClass: 0x608000029da0>
+````
+
+实现后打印结果类似
+
+````
+(lldb) po printClass
+MyPrintClass Num : 1
+
+````
+打断点观察对象时十分有用，实现方式
+
+````
+class MyPrintClass {
+    var num: Int
+    init() {
+        num = 1
+    }
+}
+
+extension MyPrintClass: CustomDebugStringConvertible{
+    var debugDescription: String{
+        return "MyPrintClass Num : \(self.num)"
+    }
+}
+````
+
+##2016-12-6
+
+###delegate的使用
+
+协议-委托模式太常见了，不多说
+
+在OC中，使用ARC，通常将delegate设置为weak，这样可以使得delegate实际的对象被释放时候，被置为nil。但在Swift中，不能直接将其设置为weak，要解决这个问题，首先要知道原因
+
+swift中的`protocol`不仅可以被`class `所遵循，还可以被`struct `或`enum `这样的类型遵循，而对于这些类型，本身就不会通过引用计数来进行内存管理，所以不能用`weak `这样的概念来修饰
+
+明白了原因就好解决，就是设法将`protocol `限制在class 内
+
+#####方法一
+因为在Objective-C中的`protocol `只有类能实现，所以可以将`protocol `声明为Objective-C的，通过在`protocol `前添加`@objc `来实现
+
+````
+@objc protocol MyClassDelegate {
+    func method()
+}
+
+class MyClass {
+    weak var delegate: MyClassDelegate?
+}
+````
+
+####方法二
+
+在protocol声明的后面加上`class `，为编译器显示的指明该protocol只能由`class `实现
+
+````
+protocol MyClassDelegate: class{
+    func method()
+}
+
+class MyClass {
+    weak var delegate: MyClassDelegate?
+}
+
+````
+
+### 关联对象的实现
+
+在Objective-C中，我们可以利用Objective-C的运行时和Key-Value Coding的特性，在运行时实现向一个对象添加值存储。在使用Category扩展现有类的功能时，直接添加实例变量是不被允许的，但可以使用property配合 Associated Object 的方式，将一个对象关联到一个已有的要扩展的对象上，从外部来看，就像是直接通过属性访问对象的实例变量一样。
+
+在Swift中实现向`extension`中使用 Associated Object的方式将对象进行关联
+
+````
+class MyClass{
+    
+}
+
+private var key: Void?
+
+//error: extensions may not contain stored properties
+extension MyClass {
+    var title: String?{
+        get{
+            return objc_getAssociatedObject(self, &key) as? String
+        }
+        set{
+            objc_setAssociatedObject(self, &key, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+}
+
+let myClass = MyClass()
+
+if let title = myClass.title {
+    print("设置了title: \(title)")
+}else{
+    print("该属性为空")
+}
+
+myClass.title = "Tom"
+
+if let title = myClass.title {
+    print("设置了title: \(title)")
+}else{
+    print("该属性为空")
+}
+
+````
+
+说明：
+`key `的类型被声明为 `Void? `，并通过`& `符号取地址作为`UnsafePointer<Void> `类型传入。
+
 ##2016-12-5
 
 ###GCD和延迟调用

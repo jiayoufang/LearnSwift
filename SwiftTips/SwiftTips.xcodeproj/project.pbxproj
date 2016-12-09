@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE88848B1DFA5DD100308551 /* MyPrintClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88848A1DFA5DD100308551 /* MyPrintClass.swift */; };
 		FE9E43221DF7B30E00A51C58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E43211DF7B30E00A51C58 /* AppDelegate.swift */; };
 		FE9E43241DF7B30E00A51C58 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E43231DF7B30E00A51C58 /* ViewController.swift */; };
 		FE9E43271DF7B30E00A51C58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE9E43251DF7B30E00A51C58 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE88848A1DFA5DD100308551 /* MyPrintClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPrintClass.swift; sourceTree = "<group>"; };
 		FE9E431E1DF7B30E00A51C58 /* SwiftTips.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftTips.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE9E43211DF7B30E00A51C58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FE9E43231DF7B30E00A51C58 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				FE9E43211DF7B30E00A51C58 /* AppDelegate.swift */,
 				FE9E43231DF7B30E00A51C58 /* ViewController.swift */,
 				FE9E43511DF7B85E00A51C58 /* UtilManage.swift */,
+				FE88848A1DFA5DD100308551 /* MyPrintClass.swift */,
 				FE9E43251DF7B30E00A51C58 /* Main.storyboard */,
 				FE9E43281DF7B30E00A51C58 /* Assets.xcassets */,
 				FE9E432A1DF7B30E00A51C58 /* LaunchScreen.storyboard */,
@@ -267,6 +270,7 @@
 			files = (
 				FE9E43521DF7B85E00A51C58 /* UtilManage.swift in Sources */,
 				FE9E43241DF7B30E00A51C58 /* ViewController.swift in Sources */,
+				FE88848B1DFA5DD100308551 /* MyPrintClass.swift in Sources */,
 				FE9E43221DF7B30E00A51C58 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,6 +515,7 @@
 				FE9E43481DF7B30E00A51C58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FE9E43491DF7B30E00A51C58 /* Build configuration list for PBXNativeTarget "SwiftTipsTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +524,7 @@
 				FE9E434B1DF7B30E00A51C58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FE9E434C1DF7B30E00A51C58 /* Build configuration list for PBXNativeTarget "SwiftTipsUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +533,7 @@
 				FE9E434E1DF7B30E00A51C58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

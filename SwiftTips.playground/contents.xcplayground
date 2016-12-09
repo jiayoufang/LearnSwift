@@ -10,5 +10,10 @@
         <page name='String和NSString'/>
         <page name='UnsafePointer'/>
         <page name='GCD和延迟调用'/>
+        <page name='获取对象的类型'/>
+        <page name='Delegate'/>
+        <page name='extension中添加属性'/>
+        <page name='随机数的生成'/>
+        <page name='print和debugPrint'/>
     </pages>
 </playground>
